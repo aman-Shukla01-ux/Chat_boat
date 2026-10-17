@@ -1,0 +1,24 @@
+{
+  "name": "chat-boat-twofactor-gemini",
+  "version": "5.0.0",
+  "private": true,
+  "description": "Chat Boat with 2Factor OTP, Supabase, Gemini chat and Cloudflare image generation",
+  "main": "server.js",
+  "type": "commonjs",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js",
+    "test": "node --test test/*.test.js",
+    "models": "node scripts/list-models.js",
+    "doctor": "node scripts/doctor.js",
+    "otp:test": "node scripts/test-otp.js"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "2.117.3",
+    "dotenv": "16.6.1",
+    "express": "5.2.1"
+  }
+}

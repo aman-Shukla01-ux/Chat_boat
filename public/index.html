@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#5e49c7">
+    <meta name="description" content="Chat Boat — a little curiosity, a better conversation.">
+    <title>Chat Boat · Your everyday AI companion</title>
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="/style.css">
+    <script src="/script.js" defer></script>
+</head>
+<body>
+    <div id="bootScreen" class="boot" role="status">Getting Assistent ready…</div>
+
+    <main id="authShell" class="auth-shell hidden">
+        <aside class="intro-panel">
+            <a class="brand" href="/" aria-label="Chat Boat home"><span class="brand-mark">≈</span>Your Assistant<span class="brand-dot">.</span></a>
+            <div class="intro-copy">
+                <span class="eyebrow">A SPACE FOR YOUR CURIOSITY</span>
+                <h1>Big ideas start<br>with a little<br><em>conversation.</em></h1>
+                <p>Work through a question. Find the right words.<br>Learn something new. Start wherever you are.</p>
+                <div class="sample-chat"><span class="tiny-label">YOU</span><p>Can you make this easier to understand?</p><span class="tiny-label accent">Assistant</span><p>Of course. Let’s take it one step at a time.</p></div>
+            </div>
+            <div class="intro-footer"><span class="status-dot"></span> Powered by Aman <span>Made for everyday questions</span></div>
+        </aside>
+
+        <section class="auth-panel">
+            <div class="auth-card">
+                <div id="authNotice" class="notice hidden" role="status" aria-live="polite"></div>
+                <section id="loginScreen" class="auth-screen">
+                    <span class="eyebrow">GOOD TO HAVE YOU HERE</span>
+                    <h2>Welcome back.</h2>
+                    <p class="subtitle">Your next conversation is waiting.</p>
+                    <form id="loginForm">
+                        <label for="loginMobile">Mobile number</label>
+                        <input id="loginMobile" type="tel" autocomplete="tel" placeholder="+91 98765 43210" maxlength="32" required>
+                        <p class="field-hint phone-hint">Use your 10-digit Indian number or include the country code.</p>
+                        <div class="label-row"><label for="loginPassword">Password</label><button class="text-btn" type="button" data-screen="forgotScreen">Forgot password?</button></div>
+                        <div class="password-field"><input id="loginPassword" type="password" autocomplete="current-password" placeholder="Enter your password" maxlength="128" required><button type="button" class="reveal" data-toggle="loginPassword" aria-label="Show password">Show</button></div>
+                        <button class="primary-btn" type="submit">Sign in <span aria-hidden="true">→</span></button>
+                    </form>
+                    <p class="bottom-text">New here? <button type="button" class="text-btn" data-screen="signupScreen">Create an account</button></p>
+                </section>
+
+                <section id="signupScreen" class="auth-screen hidden">
+                    <span class="eyebrow">LET’S GET STARTED</span>
+                    <h2>A little hello.</h2>
+                    <p class="subtitle">Create an account to save your conversations.</p>
+                    <form id="signupForm">
+                        <label for="signupName">Your name</label><input id="signupName" autocomplete="name" placeholder="What should we call you?" minlength="2" maxlength="80" required>
+                        <label for="signupMobile">Mobile number</label><input id="signupMobile" type="tel" autocomplete="tel" placeholder="+91 98765 43210" maxlength="32" required>
+                        <p class="field-hint phone-hint">We’ll request an OTP by call or SMS to verify this number.</p>
+                        <label for="signupPassword">Password</label>
+                        <div class="password-field"><input id="signupPassword" type="password" autocomplete="new-password" placeholder="At least 8 characters" minlength="8" maxlength="128" required><button type="button" class="reveal" data-toggle="signupPassword" aria-label="Show password">Show</button></div>
+                        <button class="primary-btn" type="submit">Send mobile OTP <span aria-hidden="true">→</span></button>
+                    </form>
+                    <p class="bottom-text">Already have an account? <button type="button" class="text-btn" data-screen="loginScreen">Sign in</button></p>
+                </section>
+
+                <section id="verifyScreen" class="auth-screen hidden">
+                    <span class="eyebrow">CHECK YOUR PHONE</span><h2 id="verifyHeading">Verify your mobile.</h2>
+                    <p class="subtitle">Enter the code received by call or SMS for <strong id="verificationMobile"></strong>. Your request expires after 10 minutes.</p>
+                    <form id="verifyForm">
+                        <label for="verificationCode">OTP verification code</label>
+                        <input id="verificationCode" inputmode="numeric" autocomplete="one-time-code" pattern="[0-9]{4,6}" minlength="4" maxlength="6" placeholder="Enter your OTP" required>
+                        <div id="resetFields" class="hidden">
+                            <label for="newPassword">New password</label>
+                            <div class="password-field"><input id="newPassword" type="password" autocomplete="new-password" minlength="8" maxlength="128" placeholder="At least 8 characters" disabled><button type="button" class="reveal" data-toggle="newPassword" aria-label="Show password">Show</button></div>
+                            <label for="confirmPassword">Confirm new password</label>
+                            <input id="confirmPassword" type="password" autocomplete="new-password" minlength="8" maxlength="128" disabled>
+                        </div>
+                        <button id="verifySubmit" type="submit" class="primary-btn">Verify &amp; create account</button>
+                    </form>
+                    <p id="otpProgress" class="field-hint" role="status" aria-live="polite"></p>
+                    <p class="field-hint">Keep this page open. If no call or SMS arrives, check the number and use Resend after the countdown. First time here? Use Create an account.</p>
+                    <button id="resendButton" class="secondary-btn" type="button">Resend OTP code</button>
+                    <p class="bottom-text"><button id="changeMobileButton" class="text-btn" type="button">Change mobile number</button></p>
+                    <p class="bottom-text"><button class="text-btn" type="button" data-screen="loginScreen">Back to sign in</button></p>
+                </section>
+
+                <section id="forgotScreen" class="auth-screen hidden">
+                    <span class="eyebrow">LET’S HELP YOU BACK IN</span><h2>Forgot your password?</h2>
+                    <p class="subtitle">We’ll request an OTP by call or SMS to your registered mobile number so you can choose a new password.</p>
+                    <form id="forgotForm"><label for="forgotMobile">Mobile number</label><input id="forgotMobile" type="tel" autocomplete="tel" placeholder="+91 98765 43210" maxlength="32" required><button type="submit" class="primary-btn">Send reset OTP <span aria-hidden="true">→</span></button></form>
+                    <p class="bottom-text"><button class="text-btn" type="button" data-screen="loginScreen">Back to sign in</button></p>
+                </section>
+
+                <p class="auth-footnote">Your conversations, ready when you are.</p>
+            </div>
+        </section>
+    </main>
+
+    <main id="chatShell" class="chat-shell hidden">
+        <button id="sidebarBackdrop" class="sidebar-backdrop hidden" aria-label="Close conversations"></button>
+        <aside id="sidebar" class="sidebar" aria-label="Your conversations">
+            <div class="sidebar-brand"><a class="brand" href="/"><span class="brand-mark">≈</span>Assistant<span class="brand-dot">.</span></a><button id="closeSidebar" class="icon-btn mobile-only" aria-label="Close sidebar">×</button></div>
+            <button id="newChatButton" class="new-chat" type="button"><span>＋</span> New conversation</button>
+            <button id="imageStudioButton" class="new-chat image-nav" type="button"><span>✧</span> Create an image</button>
+            <div class="sidebar-label">YOUR CONVERSATIONS</div>
+            <nav id="conversationList" class="conversation-list" aria-label="Saved chats"></nav>
+            <button id="moreChatsButton" class="text-btn more-button hidden" type="button">Load more conversations</button>
+            <div class="account"><div class="avatar" id="userInitial">U</div><div class="account-text"><strong id="userName">Your account</strong><span id="userMobile"></span></div><button id="logoutButton" class="icon-btn" title="Sign out" aria-label="Sign out">↪</button></div>
+        </aside>
+        <section class="chat-main">
+            <header class="chat-header"><div class="chat-heading"><button id="openSidebar" class="icon-btn mobile-only" aria-label="Open conversations" aria-expanded="false" aria-controls="sidebar">☰</button><h1 id="chatTitle">A new conversation</h1></div><div class="header-actions"><span class="model-badge"><span class="status-dot"></span>Made by Aman</span><button id="renameButton" class="icon-btn hidden" aria-label="Rename conversation" title="Rename conversation">✎</button><button id="deleteButton" class="icon-btn hidden" aria-label="Delete conversation" title="Delete conversation">×</button></div></header>
+            <div id="chatNotice" class="notice chat-notice hidden" role="status" aria-live="polite"></div>
+            <div id="chatScroll" class="chat-scroll">
+                <section id="welcome" class="welcome">
+                    <div class="welcome-mark" aria-hidden="true"></div><span class="eyebrow">A LITTLE CURIOSITY GOES A LONG WAY</span><h2>What’s on your mind?</h2><p>Bring a question, a rough idea, or a blank page.<br>We’ll take it from there.</p>
+                    <div class="suggestions"><button type="button" data-prompt="Explain how a website works, using a simple real-life example."><span>↗</span><strong>Make it make sense</strong><small>Understand something new</small></button><button type="button" data-prompt="Help me write a clear, friendly professional email. First ask me who it is for and what I want to say."><span>✎</span><strong>Find the right words</strong><small>Get a little writing help</small></button><button type="button" data-prompt="Help me brainstorm a beginner-friendly coding project. Ask about what I already know first."><span>✧</span><strong>Start something good</strong><small>Explore a fresh idea</small></button></div>
+                </section>
+                <button id="olderButton" class="secondary-btn older-button hidden" type="button">Load earlier messages</button>
+                <div id="messages" class="messages" aria-live="polite" aria-relevant="additions" aria-label="Conversation messages"></div>
+                <div id="thinking" class="thinking hidden" role="status">
+    <img src="images/Avtaa" alt="Chat Boat" class="thinking-avatar">
+
+    <span>thinking</span>
+
+    <span class="typing-dots">
+        <span>.</span>
+        <span>.</span>
+        <span>.</span>
+    </span>
+</div>
+            </div>
+            <div id="composerArea" class="composer-area"><form id="chatForm" class="composer"><label class="sr-only" for="messageInput">Your message</label><textarea id="messageInput" rows="2" maxlength="4000" placeholder="Ask anything, or start with an idea…" required></textarea><div class="composer-bottom"><span id="characterCount">0 / 4,000</span><button id="sendButton" class="send-button" type="submit" aria-label="Send message">Send <span aria-hidden="true">↑</span></button></div></form><p class="composer-note">AI can make mistakes. Check important information. <span>Shift + Enter for a new line.</span></p></div>
+            <section id="imageStudio" class="image-studio hidden" aria-labelledby="imageStudioHeading">
+                <div class="studio-heading"><span class="eyebrow">FROM A THOUGHT TO A PICTURE</span><h2 id="imageStudioHeading">Make something you imagine.</h2><p>Describe a scene, a poster, or a little idea. Your images stay in your private gallery.</p></div>
+                <form id="imageForm" class="image-form">
+                    <label for="imagePrompt">What would you like to create?</label>
+                    <textarea id="imagePrompt" rows="4" maxlength="2000" placeholder="A cozy bookshop on a rainy evening, warm window light, watercolor illustration…" required></textarea>
+                    <div class="image-options"><div><label for="imageRatio">Image shape</label><select id="imageRatio"><option value="1:1">Square · 1:1</option><option value="16:9">Landscape · 16:9</option><option value="9:16">Portrait · 9:16</option><option value="4:3">Classic · 4:3</option><option value="3:4">Poster · 3:4</option></select></div><button id="generateImageButton" type="submit" class="primary-btn">Generate image <span aria-hidden="true">✧</span></button></div>
+                    <p class="field-hint">AI-generated images. Generation can take up to two minutes. Availability depends on the image quota of this app.</p>
+                </form>
+                <div id="imageNotice" class="notice hidden" role="status" aria-live="polite"></div>
+                <div id="imageLoading" class="image-loading hidden" role="status"><span class="studio-spark">✧</span><strong>Bringing your idea to life…</strong><p>You can keep chatting while your image is being made.</p></div>
+                <div class="gallery-heading"><h3>Your images</h3><button id="refreshImagesButton" type="button" class="text-btn">Refresh gallery</button></div>
+                <p id="imageEmpty" class="field-hint">Your first image starts with an idea above.</p>
+                <div id="imageGallery" class="image-gallery"></div>
+            </section>
+        </section>
+    </main>
+
+    <dialog id="actionDialog"><form id="actionForm"><h2 id="dialogTitle"></h2><p id="dialogDescription"></p><label id="renameLabel" for="renameInput">Conversation title</label><input id="renameInput" maxlength="100"><div class="dialog-actions"><button id="dialogCancel" type="button" class="secondary-btn">Cancel</button><button id="dialogConfirm" type="submit" class="primary-btn">Save</button></div><p id="dialogError" class="dialog-error" role="alert"></p></form></dialog>
+</body>
+</html>
